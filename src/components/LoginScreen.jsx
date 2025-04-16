@@ -107,7 +107,9 @@ const LoginScreen = () => {
           />
           {erroSenha && <Error>{erroSenha}</Error>}
           <Button onClick={handleSubmit}>Cadastrar</Button>
-          <TextButton onClick={() => alert('Cadastro de estabelecimento')}>Cadastrar estabelecimento</TextButton>
+          <TextButton onClick={() => navigate('/cadastrar-estabelecimento')}>
+                Cadastrar estabelecimento
+        </TextButton>
         </>
       )}
     </Container>
