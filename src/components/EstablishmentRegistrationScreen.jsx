@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { db } from '../firebaseConfig'; // Importando o Firestore
-import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../firebaseConfig';
+import { doc, setDoc } from 'firebase/firestore';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebaseConfig';
 import {
   Container,
   BackWrapper,
@@ -38,7 +40,10 @@ const EstablishmentRegistrationScreen = () => {
 
     try {
       
-      await addDoc(collection(db, 'estabelecimento'), {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+      await setDoc(doc(db, 'estabelecimento', user.uid), {
         name,
         email,
         cnpj,
@@ -47,9 +52,12 @@ const EstablishmentRegistrationScreen = () => {
         address,
         zipCode,
         multiEc, 
-        password,
       });
       
+      await setDoc(doc(db, 'users', user.uid), {
+        email,
+        isEc: true
+      });
 
       alert('Estabelecimento cadastrado com sucesso!');
       navigate('/');

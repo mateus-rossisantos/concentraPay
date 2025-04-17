@@ -14,6 +14,9 @@ import {
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebaseConfig';
 import { useNavigate } from 'react-router-dom';
+import { doc, setDoc } from 'firebase/firestore';
+import { db } from '../firebaseConfig';
+
 
 
 
@@ -39,20 +42,23 @@ const LoginScreen = () => {
         const userCredential = await signInWithEmailAndPassword(auth, email, senha);
         const user = userCredential.user;
         console.log('Logado como:', user.email);
-        alert('Login realizado com sucesso!');
+        navigate('/home');
       } else {
         // CADASTRO
         const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
         const user = userCredential.user;
         console.log('Usuário criado:', user.email);
+        await setDoc(doc(db, 'users', user.uid), {
+            email,
+            isEc : false
+          });
         alert('Cadastro realizado com sucesso!');
       }
     } catch (error) {
       console.error('Erro:', error.code, error.message);
       alert(`Erro: ${error.message}`);
     }
-  };
-  
+  };  
 
   return (
     <Container>
