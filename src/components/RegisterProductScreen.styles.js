@@ -1,4 +1,4 @@
-// src/components/HomeScreen.styles.js
+// src/components/RegisterProductScreen.styles.js
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -43,7 +43,7 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  margin: 1.5rem auto 0;
+  margin-top: 1.5rem;
   width: 80%;
   padding: 0.75rem;
   background-color: #4b39ef;
@@ -53,22 +53,6 @@ export const Button = styled.button`
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  display: block;
-
-  &:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-`;
-
-export const TextButton = styled.button`
-  margin-top: 1rem;
-  background: none;
-  border: none;
-  color: #4b39ef;
-  font-size: 0.95rem;
-  cursor: pointer;
-  text-decoration: underline;
   display: block;
   margin-left: auto;
   margin-right: auto;

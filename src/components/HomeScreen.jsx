@@ -24,16 +24,13 @@ const HomeScreen = () => {
   useEffect(() => {
     const checkIfEstablishment = async () => {
       const user = auth.currentUser;
-      console.log("Passou aqui 0")
   
       if (user) {
         try {
           const userRef = doc(db, 'users', user.uid);
           const userSnap = await getDoc(userRef);
-          console.log("Passou aqui 1")
   
           if (userSnap.exists()) {
-            console.log("Passou aqui 2")
             const data = userSnap.data();
             setIsEstablishment(data.isEc === true);
           }
@@ -49,10 +46,6 @@ const HomeScreen = () => {
   const handleLogout = async () => {
     await signOut(auth);
     navigate('/');
-  };
-
-  const handleReadCommand = () => {
-    console.log('Lendo comanda:', commandNumber);
   };
 
   return (
@@ -75,7 +68,13 @@ const HomeScreen = () => {
         onChange={(e) => setCommandNumber(e.target.value)}
       />
 
-      <Button onClick={handleReadCommand}>Ler comanda</Button>
+        <Button
+        onClick={() => navigate(`/pedidos/${commandNumber}`)}
+        disabled={commandNumber.trim() === ''}
+        >
+        Ler comanda
+        </Button>
+
 
       {isEstablishment && (
         <TextButton onClick={() => navigate('/area-estabelecimento')}>

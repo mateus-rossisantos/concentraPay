@@ -1,4 +1,4 @@
-// src/components/HomeScreen.styles.js
+// src/components/MenuScreen.styles.js
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -7,6 +7,8 @@ export const Container = styled.div`
   min-height: 100vh;
   padding: 1.5rem;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const Header = styled.div`
@@ -34,6 +36,7 @@ export const Description = styled.p`
 
 export const Input = styled.input`
   margin-top: 1rem;
+  margin-bottom: 1.5rem;
   width: 100%;
   padding: 0.75rem;
   font-size: 1rem;
@@ -42,10 +45,55 @@ export const Input = styled.input`
   box-sizing: border-box;
 `;
 
+export const ProductList = styled.div`
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+`;
+
+export const ProductItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #eee;
+`;
+
+export const ProductName = styled.p`
+  font-size: 1rem;
+  font-weight: 500;
+  color: #000;
+`;
+
+export const ProductPrice = styled.p`
+  font-size: 0.9rem;
+  color: #666;
+`;
+
+export const QuantitySelect = styled.select`
+  padding: 0.4rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+`;
+
+export const Footer = styled.div`
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+`;
+
+export const Total = styled.p`
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #000;
+`;
+
 export const Button = styled.button`
-  margin: 1.5rem auto 0;
-  width: 80%;
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
   background-color: #4b39ef;
   color: #fff;
   border: none;
@@ -53,7 +101,6 @@ export const Button = styled.button`
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  display: block;
 
   &:disabled {
     background-color: #ccc;
@@ -61,15 +108,4 @@ export const Button = styled.button`
   }
 `;
 
-export const TextButton = styled.button`
-  margin-top: 1rem;
-  background: none;
-  border: none;
-  color: #4b39ef;
-  font-size: 0.95rem;
-  cursor: pointer;
-  text-decoration: underline;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-`;
+

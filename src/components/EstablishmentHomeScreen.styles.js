@@ -1,4 +1,4 @@
-// src/components/HomeScreen.styles.js
+// src/components/EstablishmentHomeScreen.styles.js
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -60,6 +60,7 @@ export const Button = styled.button`
     cursor: not-allowed;
   }
 `;
+
 
 export const TextButton = styled.button`
   margin-top: 1rem;
