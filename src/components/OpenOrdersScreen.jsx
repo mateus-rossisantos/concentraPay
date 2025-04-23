@@ -95,7 +95,7 @@ const OpenOrdersScreen = () => {
 
       <TotalContainer>
         <div><strong>Total geral:</strong> R${total.toFixed(2)}</div>
-        <Button onClick={() => alert('Pagamento realizado!')}>Pagar</Button>
+        <Button onClick={() => navigate('/forma-pagamento', { state: { totalAmount: total } })}>Pagar</Button>
       </TotalContainer>
     </Container>
   );
