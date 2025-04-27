@@ -19,6 +19,8 @@ import {
   OrderItem,
   TotalContainer,
   Button,
+  EmptyState,
+  BigCheck,
 } from './OpenOrdersScreen.styles';
 import { FiArrowLeft } from 'react-icons/fi';
 
@@ -84,19 +86,30 @@ const OpenOrdersScreen = () => {
         Pedidos em aberto na comanda {commandNumber}
       </Description>
 
-      <OrderList>
-        {orders.map((order, index) => (
-          <OrderItem key={index}>
-            <div><strong>Estabelecimento:</strong> {order.establishmentName}</div>
-            <div><strong>Total:</strong> R${order.value.toFixed(2)}</div>
-          </OrderItem>
-        ))}
-      </OrderList>
+      {orders.length === 0 ? (
+        <EmptyState>
+          <BigCheck>✅</BigCheck>
+          Nenhum pedido em aberto, comanda liberada
+        </EmptyState>
+      ) : (
+        <>
+          <OrderList>
+            {orders.map((order, index) => (
+              <OrderItem key={index}>
+                <div><strong>Estabelecimento:</strong> {order.establishmentName}</div>
+                <div><strong>Total:</strong> R${order.value.toFixed(2)}</div>
+              </OrderItem>
+            ))}
+          </OrderList>
 
-      <TotalContainer>
-        <div><strong>Total geral:</strong> R${total.toFixed(2)}</div>
-        <Button onClick={() => navigate('/forma-pagamento', { state: { totalAmount: total } })}>Pagar</Button>
-      </TotalContainer>
+          <TotalContainer>
+            <div><strong>Total geral:</strong> R${total.toFixed(2)}</div>
+            <Button onClick={() => navigate('/forma-pagamento', { state: { totalAmount: total } })}>
+              Pagar
+            </Button>
+          </TotalContainer>
+        </>
+      )}
     </Container>
   );
 };

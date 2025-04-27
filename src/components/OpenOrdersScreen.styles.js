@@ -57,3 +57,21 @@ export const Button = styled.button`
     background-color: #45a049;
   }
 `;
+
+export const EmptyState = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  color: #4caf50;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  gap: 1rem;
+`;
+
+export const BigCheck = styled.span`
+  font-size: 4rem;
+`;
+
