@@ -21,6 +21,7 @@ const PaymentMethodsScreen = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const totalAmount = location.state?.totalAmount || 0;
+  const commandNumber = location.state?.commandNumber || 0;
 
   const [isEstablishment, setIsEstablishment] = useState(false);
 
@@ -55,7 +56,7 @@ const PaymentMethodsScreen = () => {
         Pagar com Cartão de Crédito
       </Button>
 
-      <GreenButton onClick={() => navigate('/pagamento-pix', { state: { totalAmount } })}>
+      <GreenButton onClick={() => navigate('/pagamento-pix', { state: { totalAmount, commandNumber } })}>
         <IconWrapper>
             <BsBank size={20} />
         </IconWrapper>

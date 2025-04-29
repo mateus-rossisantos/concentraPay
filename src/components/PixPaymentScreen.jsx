@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiCopy, FiRefreshCw } from 'react-icons/fi';
 import {
@@ -13,23 +13,73 @@ import {
   BoldText,
   PayButton,
 } from './PixPaymentScreen.styles';
+import { PaymentService } from '../service/PaymentService';
 
 const PixPaymentScreen = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const totalAmount = location.state?.totalAmount || 0;
+const navigate = useNavigate();
+const location = useLocation();
+const totalAmount = location.state?.totalAmount || 0;
+const commandNumber = location.state?.commandNumber || 0;
+const [pixKey, setPixKey] = useState('');
+const [qrCodeUrl, setQrCodeUrl] = useState('');
+const [loading, setLoading] = useState(true);
+const hasRequested = useRef(false);
+const [txid, setTxid] = useState(null);
+const [checkingStatus, setCheckingStatus] = useState(false);
 
-  const pixKey = '00020126360014BR.GOV.BCB.PIX0114+5599999999995204000053039865802BR5925ConcentraPay Pagamentos6009SAO PAULO62290525PixPagamentoConcentraPay6304B13F';
+
+useEffect(() => {
+  if (hasRequested.current) return;
+  hasRequested.current = true;
+
+  const fetchPixPayment = async () => {
+    try {
+      const data = await PaymentService.createPixPayment({
+        amount: totalAmount,
+        commandNumber,
+      });
+      setPixKey(data.pixCopiaECola);
+      setQrCodeUrl(`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(data.pixCopiaECola)}`);
+      setTxid(data.txid)
+    } catch (err) {
+      alert('Erro ao gerar pagamento Pix');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchPixPayment();
+}, [totalAmount, commandNumber]);
+
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(pixKey);
-    alert('Código Pix copiado!');
+    if (pixKey) {
+      navigator.clipboard.writeText(pixKey);
+      alert('Código Pix copiado!');
+    }
   };
 
-  const handleConfirmPayment = () => {
-    alert('Pagamento confirmado (simulado)');
-    navigate('/pagamento-sucesso');
+  const handleConfirmPayment = async () => {
+    if (!txid) {
+      alert('Pagamento ainda não foi iniciado.');
+      return;
+    }
+  
+    setCheckingStatus(true);
+    try {
+      const statusData = await PaymentService.checkPixPaymentStatus(txid);
+      if (statusData.status === 'CONCLUIDA') {
+        navigate('/pagamento-sucesso');
+      }
+    } catch (error) {
+      alert('Erro ao verificar o status do pagamento');
+      console.error(error);
+    } finally {
+      setCheckingStatus(false);
+    }
   };
+  
 
   return (
     <Container>
@@ -43,23 +93,34 @@ const PixPaymentScreen = () => {
       <BoldText>Valor a pagar: R${totalAmount.toFixed(2)}</BoldText>
 
       <QRCodeWrapper>
-        <img
-          src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=PagamentoConcentraPix"
-          alt="QR Code Pix"
-        />
+        {loading ? (
+          <p>Carregando QR Code...</p>
+        ) : (
+          <img src={qrCodeUrl} alt="QR Code Pix" />
+        )}
       </QRCodeWrapper>
 
       <PixCodeBox>
-        <PixCodeText>{pixKey}</PixCodeText>
-        <CopyButton onClick={handleCopy}>
+        <PixCodeText>{loading ? 'Gerando código Pix...' : pixKey}</PixCodeText>
+        <CopyButton onClick={handleCopy} disabled={loading}>
           <FiCopy size={18} /> Copiar
         </CopyButton>
       </PixCodeBox>
 
-      <PayButton onClick={handleConfirmPayment}>
-        <FiRefreshCw size={20} />
-        Verificar Status
+      <PayButton onClick={handleConfirmPayment} disabled={loading || checkingStatus}>
+        {checkingStatus ? (
+          <>
+            <FiRefreshCw size={20} className="spin" />
+            Verificando...
+          </>
+        ) : (
+          <>
+            <FiRefreshCw size={20} />
+            Verificar Status
+          </>
+        )}
       </PayButton>
+
     </Container>
   );
 };
