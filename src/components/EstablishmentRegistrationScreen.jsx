@@ -22,7 +22,7 @@ const EstablishmentRegistrationScreen = () => {
   const [email, setEmail] = useState('');
   const [cnpj, setCnpj] = useState('');
   const [empreendimento, setEmpreendimento] = useState('');
-  const [contact, setContact] = useState('');
+  const [chavePix, setChavePix] = useState('');
   const [address, setAddress] = useState('');
   const [zipCode, setZipCode] = useState('');
   const [multiEc, setMultiEc] = useState(false);
@@ -48,10 +48,11 @@ const EstablishmentRegistrationScreen = () => {
         email,
         cnpj,
         empreendimento,
-        contact,
+        chavePix,
         address,
         zipCode,
-        multiEc, 
+        multiEc,
+        pendingPayment: 0.0, 
       });
       
       await setDoc(doc(db, 'users', user.uid), {
@@ -107,9 +108,9 @@ const EstablishmentRegistrationScreen = () => {
 
         <Input
           type="text"
-          placeholder="Responsável pelo Estabelecimento"
-          value={contact}
-          onChange={(e) => setContact(e.target.value)}
+          placeholder="Chave Pix"
+          value={chavePix}
+          onChange={(e) => setChavePix(e.target.value)}
         />
 
         <Input
