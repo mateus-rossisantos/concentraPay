@@ -4,6 +4,7 @@ import { FiArrowLeft } from 'react-icons/fi';
 import { BsCreditCard, BsCash, BsBank } from 'react-icons/bs';
 import { auth, db } from '../firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
+import { PaymentService } from '../service/PaymentService';
 
 import {
   Container,
@@ -40,6 +41,30 @@ const PaymentMethodsScreen = () => {
     checkUserType();
   }, []);
 
+  const handleCashPayment = async () => {
+    const confirm = window.confirm('Confirmar pagamento em dinheiro?');
+  
+    if (!confirm) return;
+  
+    try {
+      const user = auth.currentUser;
+      if (!user) throw new Error('Usuário não autenticado');
+  
+      const ecId = user.uid;
+  
+      await PaymentService.createMoneyPayment({
+        amount: totalAmount,
+        ec: ecId,
+        commandNumber,
+      });
+  
+      navigate('/pagamento-sucesso');
+    } catch (error) {
+      console.error('Erro ao processar pagamento em dinheiro:', error);
+      alert('Falha ao registrar pagamento em dinheiro. Tente novamente.');
+    }
+  };
+
   return (
     <Container>
       <Header>
@@ -64,7 +89,7 @@ const PaymentMethodsScreen = () => {
       </GreenButton>
 
       {isEstablishment && (
-        <OrangeButton onClick={() => navigate('/pagamento-sucesso')}>
+        <OrangeButton onClick={handleCashPayment}>
           <IconWrapper><BsCash size={20} /></IconWrapper>
           Pagar com dinheiro
         </OrangeButton>

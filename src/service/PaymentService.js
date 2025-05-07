@@ -28,4 +28,19 @@ export const PaymentService = {
     if (!response.ok) throw new Error('Erro ao consultar status do pagamento');
     return response.json();
   },
+
+  async createMoneyPayment({ amount, ec, commandNumber }) {
+    const response = await fetch(`${BASE_URL}/payments/money`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        valor: amount,
+        ec,
+        comanda: commandNumber,
+      }),
+    });
+
+    if (!response.ok) throw new Error('Erro ao registrar pagamento em dinheiro');
+    return response.json();
+  }
 };

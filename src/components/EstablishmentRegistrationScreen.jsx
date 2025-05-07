@@ -53,6 +53,7 @@ const EstablishmentRegistrationScreen = () => {
         zipCode,
         multiEc,
         pendingPayment: 0.0, 
+        advancePayment: 0.0
       });
       
       await setDoc(doc(db, 'users', user.uid), {
