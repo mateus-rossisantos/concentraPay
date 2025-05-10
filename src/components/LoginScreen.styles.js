@@ -47,7 +47,7 @@ export const SubLabel = styled.p`
 `;
 
 export const Input = styled.input`
-  width: 100%;
+  width: 90%;
   padding: 0.75rem;
   margin-bottom: 1rem;
   border: 1px solid #ccc;

@@ -11,9 +11,6 @@ import {
   BackText,
   Title,
   Input,
-  InputLabel,
-  RadioGroup,
-  RadioLabel,
   Button,
 } from './EstablishmentRegistrationScreen.styles';
 
@@ -25,7 +22,6 @@ const EstablishmentRegistrationScreen = () => {
   const [chavePix, setChavePix] = useState('');
   const [address, setAddress] = useState('');
   const [zipCode, setZipCode] = useState('');
-  const [multiEc, setMultiEc] = useState(false);
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const navigate = useNavigate();
@@ -51,7 +47,6 @@ const EstablishmentRegistrationScreen = () => {
         chavePix,
         address,
         zipCode,
-        multiEc,
         pendingPayment: 0.0, 
         advancePayment: 0.0
       });
@@ -127,30 +122,6 @@ const EstablishmentRegistrationScreen = () => {
           value={zipCode}
           onChange={(e) => setZipCode(e.target.value)}
         />
-
-        <InputLabel>É complexo de estabelecimentos?</InputLabel>
-        <RadioGroup>
-        <div>
-            <input
-            type="radio"
-            id="sim"
-            name="multiEc"
-            checked={multiEc === true}
-            onChange={() => setMultiEc(true)}
-            />
-            <RadioLabel htmlFor="sim">Sim</RadioLabel>
-        </div>
-        <div>
-            <input
-            type="radio"
-            id="nao"
-            name="multiEc"
-            checked={multiEc === false}
-            onChange={() => setMultiEc(false)}
-            />
-            <RadioLabel htmlFor="nao">Não</RadioLabel>
-        </div>
-        </RadioGroup>
 
 
         <Input

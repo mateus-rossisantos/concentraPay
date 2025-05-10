@@ -44,7 +44,7 @@ export const InputLabel = styled.label`
 `;
 
 export const Input = styled.input`
-  width: 100%;
+  width: 90%;
   padding: 0.75rem;
   margin-bottom: 1.5rem;
   border: 1px solid #ccc;
