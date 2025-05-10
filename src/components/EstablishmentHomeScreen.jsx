@@ -7,7 +7,6 @@ import {
   BackButton,
   Title,
   Button,
-  TextButton,
 } from './EstablishmentHomeScreen.styles';
 import { FiArrowLeft } from 'react-icons/fi';
 
