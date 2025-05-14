@@ -18,7 +18,7 @@ import { doc, getDoc } from 'firebase/firestore';
 
 const HomeScreen = () => {
   const navigate = useNavigate();
-  const [commandNumber, setCommandNumber] = useState('');
+  const [numeroComanda, setnumeroComanda] = useState('');
   const [isEstablishment, setIsEstablishment] = useState(false); 
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const HomeScreen = () => {
   
       if (user) {
         try {
-          const userRef = doc(db, 'users', user.uid);
+          const userRef = doc(db, 'usuario', user.uid);
           const userSnap = await getDoc(userRef);
   
           if (userSnap.exists()) {
@@ -64,13 +64,13 @@ const HomeScreen = () => {
       <Input
         type="text"
         placeholder="Digite o número da comanda"
-        value={commandNumber}
-        onChange={(e) => setCommandNumber(e.target.value)}
+        value={numeroComanda}
+        onChange={(e) => setnumeroComanda(e.target.value)}
       />
 
         <Button
-        onClick={() => navigate(`/pedidos/${commandNumber}`)}
-        disabled={commandNumber.trim() === ''}
+        onClick={() => navigate(`/pedidos/${numeroComanda}`)}
+        disabled={numeroComanda.trim() === ''}
         >
         Ler comanda
         </Button>

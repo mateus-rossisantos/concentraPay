@@ -16,23 +16,23 @@ import { collection, addDoc } from 'firebase/firestore';
 
 const RegisterProductScreen = () => {
   const navigate = useNavigate();
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('');
+  const [nome, setName] = useState('');
+  const [descricao, setDescription] = useState('');
+  const [preco, setPrice] = useState('');
 
   const handleRegisterProduct = async () => {
     const user = auth.currentUser;
 
-    if (!user || !name || !price) {
+    if (!user || !nome || !preco) {
       console.warn('Preencha todos os campos obrigatórios.');
       return;
     }
 
     try {
-      await addDoc(collection(db, 'product'), {
-        name,
-        description,
-        price: parseFloat(price),
+      await addDoc(collection(db, 'produto'), {
+        nome,
+        descricao,
+        preco: parseFloat(preco),
         ec: user.uid,
       });
 
@@ -56,21 +56,21 @@ const RegisterProductScreen = () => {
       <Input
         type="text"
         placeholder="Nome do produto"
-        value={name}
+        value={nome}
         onChange={(e) => setName(e.target.value)}
       />
 
       <Input
         type="text"
         placeholder="Descrição"
-        value={description}
+        value={descricao}
         onChange={(e) => setDescription(e.target.value)}
       />
 
       <Input
         type="number"
         placeholder="Preço (somente números)"
-        value={price}
+        value={preco}
         onChange={(e) => setPrice(e.target.value)}
         min="0"
         step="0.01"

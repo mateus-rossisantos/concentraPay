@@ -3,7 +3,7 @@
 const BASE_URL = 'http://localhost:8080/api';
 
 export const PaymentService = {
-  async createPixPayment({ amount, commandNumber }) {
+  async createPixPayment({ amount, numeroComanda }) {
     const response = await fetch(`${BASE_URL}/payments/pix`, {
       method: 'POST',
       headers: {
@@ -12,7 +12,7 @@ export const PaymentService = {
       body: JSON.stringify({
         calendario: { expiracao: 3600 },
         valor: { original: amount.toFixed(2) },
-        solicitacaoPagador: `pagamento comanda #${commandNumber}`,
+        solicitacaoPagador: `pagamento comanda #${numeroComanda}`,
       }),
     });
 
@@ -29,14 +29,14 @@ export const PaymentService = {
     return response.json();
   },
 
-  async createMoneyPayment({ amount, ec, commandNumber }) {
+  async createMoneyPayment({ amount, ec, numeroComanda }) {
     const response = await fetch(`${BASE_URL}/payments/money`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         valor: amount,
         ec,
-        comanda: commandNumber,
+        comanda: numeroComanda,
       }),
     });
 

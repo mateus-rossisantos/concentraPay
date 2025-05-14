@@ -30,11 +30,11 @@ import {
 
 const MenuScreen = () => {
   const navigate = useNavigate();
-  const [commandNumber, setCommandNumber] = useState('');
-  const [products, setProducts] = useState([]);
+  const [numeroComanda, setCommandNumber] = useState('');
+  const [produtos, setProducts] = useState([]);
   const [quantities, setQuantities] = useState({});
   const [total, setTotal] = useState(0);
-  const isButtonDisabled = total === 0 || commandNumber.trim() === '';
+  const isButtonDisabled = total === 0 || numeroComanda.trim() === '';
 
   const user = auth.currentUser;
 
@@ -42,15 +42,15 @@ const MenuScreen = () => {
     const fetchProducts = async () => {
       if (!user) return;
 
-      const q = query(collection(db, 'product'), where('ec', '==', user.uid));
+      const q = query(collection(db, 'produto'), where('ec', '==', user.uid));
       const querySnapshot = await getDocs(q);
 
-      const productsData = [];
+      const produtosData = [];
       querySnapshot.forEach((doc) => {
-        productsData.push({ id: doc.id, ...doc.data() });
+        produtosData.push({ id: doc.id, ...doc.data() });
       });
 
-      setProducts(productsData);
+      setProducts(produtosData);
     };
 
     fetchProducts();
@@ -58,42 +58,42 @@ const MenuScreen = () => {
 
   useEffect(() => {
     let newTotal = 0;
-    products.forEach((product) => {
-      const quantity = quantities[product.id] || 0;
-      newTotal += product.price * quantity;
+    produtos.forEach((produto) => {
+      const quantity = quantities[produto.id] || 0;
+      newTotal += produto.preco * quantity;
     });
     setTotal(newTotal);
-  }, [quantities, products]);
+  }, [quantities, produtos]);
 
-  const handleQuantityChange = (productId, value) => {
+  const handleQuantityChange = (produtoId, valor) => {
     setQuantities((prev) => ({
       ...prev,
-      [productId]: parseInt(value),
+      [produtoId]: parseInt(valor),
     }));
   };
 
   const handleCreateOrder = async () => {
-    const selectedItems = products
-      .filter((product) => quantities[product.id] > 0)
-      .map((product) => ({
-        name: product.name,
-        quantity: quantities[product.id],
-        unitPrice: product.price,
+    const selectedItems = produtos
+      .filter((produto) => quantities[produto.id] > 0)
+      .map((produto) => ({
+        nome: produto.nome,
+        quantity: quantities[produto.id],
+        unitPrice: produto.preco,
       }));
 
-    if (selectedItems.length === 0 || !commandNumber) {
+    if (selectedItems.length === 0 || !numeroComanda) {
       alert('Selecione pelo menos um item e preencha o número da comanda.');
       return;
     }
 
     try {
-      await addDoc(collection(db, 'order'), {
+      await addDoc(collection(db, 'pedido'), {
         date: Timestamp.now(),
         ec: user.uid,
-        value: total,
+        valor: total,
         status: 'CREATED',
-        commandNumber,
-        products: selectedItems,
+        numeroComanda,
+        produtos: selectedItems,
       });
 
       navigate('/area-estabelecimento');
@@ -115,20 +115,20 @@ const MenuScreen = () => {
       <Input
         type="text"
         placeholder="Número da comanda"
-        value={commandNumber}
+        value={numeroComanda}
         onChange={(e) => setCommandNumber(e.target.value)}
       />
 
       <ProductList>
-        {products.map((product) => (
-          <ProductItem key={product.id}>
+        {produtos.map((produto) => (
+          <ProductItem key={produto.id}>
             <div>
-              <ProductName>{product.name}</ProductName>
-              <ProductPrice>R$ {product.price.toFixed(2)}</ProductPrice>
+              <ProductName>{produto.nome}</ProductName>
+              <ProductPrice>R$ {produto.preco.toFixed(2)}</ProductPrice>
             </div>
             <QuantitySelect
-              value={quantities[product.id] || 0}
-              onChange={(e) => handleQuantityChange(product.id, e.target.value)}
+              value={quantities[produto.id] || 0}
+              onChange={(e) => handleQuantityChange(produto.id, e.target.value)}
             >
               {[...Array(11).keys()].map((num) => (
                 <option key={num} value={num}>

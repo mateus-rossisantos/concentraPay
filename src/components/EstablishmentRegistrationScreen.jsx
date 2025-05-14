@@ -15,13 +15,13 @@ import {
 } from './EstablishmentRegistrationScreen.styles';
 
 const EstablishmentRegistrationScreen = () => {
-  const [name, setName] = useState('');
+  const [nome, setName] = useState('');
   const [email, setEmail] = useState('');
   const [cnpj, setCnpj] = useState('');
   const [empreendimento, setEmpreendimento] = useState('');
   const [chavePix, setChavePix] = useState('');
-  const [address, setAddress] = useState('');
-  const [zipCode, setZipCode] = useState('');
+  const [endereco, setAddress] = useState('');
+  const [cep, setcep] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const navigate = useNavigate();
@@ -40,18 +40,18 @@ const EstablishmentRegistrationScreen = () => {
         const user = userCredential.user;
 
       await setDoc(doc(db, 'estabelecimento', user.uid), {
-        name,
+        nome,
         email,
         cnpj,
         empreendimento,
         chavePix,
-        address,
-        zipCode,
+        endereco,
+        cep,
         pendingPayment: 0.0, 
         advancePayment: 0.0
       });
       
-      await setDoc(doc(db, 'users', user.uid), {
+      await setDoc(doc(db, 'usuario', user.uid), {
         email,
         isEc: true
       });
@@ -77,7 +77,7 @@ const EstablishmentRegistrationScreen = () => {
         <Input
           type="text"
           placeholder="Nome do Estabelecimento"
-          value={name}
+          value={nome}
           onChange={(e) => setName(e.target.value)}
         />
 
@@ -112,15 +112,15 @@ const EstablishmentRegistrationScreen = () => {
         <Input
           type="text"
           placeholder="Endereço"
-          value={address}
+          value={endereco}
           onChange={(e) => setAddress(e.target.value)}
         />
 
         <Input
           type="text"
           placeholder="CEP"
-          value={zipCode}
-          onChange={(e) => setZipCode(e.target.value)}
+          value={cep}
+          onChange={(e) => setcep(e.target.value)}
         />
 
 

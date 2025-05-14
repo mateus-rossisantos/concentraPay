@@ -22,7 +22,7 @@ const PaymentMethodsScreen = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const totalAmount = location.state?.totalAmount || 0;
-  const commandNumber = location.state?.commandNumber || 0;
+  const numeroComanda = location.state?.numeroComanda || 0;
 
   const [isEstablishment, setIsEstablishment] = useState(false);
 
@@ -30,7 +30,7 @@ const PaymentMethodsScreen = () => {
     const checkUserType = async () => {
       const user = auth.currentUser;
       if (user) {
-        const userRef = doc(db, 'users', user.uid);
+        const userRef = doc(db, 'usuario', user.uid);
         const userSnap = await getDoc(userRef);
         if (userSnap.exists()) {
           setIsEstablishment(userSnap.data().isEc === true);
@@ -55,7 +55,7 @@ const PaymentMethodsScreen = () => {
       await PaymentService.createMoneyPayment({
         amount: totalAmount,
         ec: ecId,
-        commandNumber,
+        numeroComanda,
       });
   
       navigate('/pagamento-sucesso');
@@ -81,7 +81,7 @@ const PaymentMethodsScreen = () => {
         Pagar com Cartão de Crédito
       </Button>
 
-      <GreenButton onClick={() => navigate('/pagamento-pix', { state: { totalAmount, commandNumber } })}>
+      <GreenButton onClick={() => navigate('/pagamento-pix', { state: { totalAmount, numeroComanda } })}>
         <IconWrapper>
             <BsBank size={20} />
         </IconWrapper>

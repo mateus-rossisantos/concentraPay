@@ -26,7 +26,7 @@ function App() {
         <Route path="/area-estabelecimento" element={<EstablishmentHomeScreen />} />
         <Route path="/cadastrar-produto" element={<RegisterProductScreen />} />
         <Route path="/criar-pedido" element={<MenuScreen />} />
-        <Route path="/pedidos/:commandNumber" element={<OpenOrdersScreen />} />
+        <Route path="/pedidos/:numeroComanda" element={<OpenOrdersScreen />} />
         <Route path="/forma-pagamento" element={<PaymentMethodsScreen/>} />
         <Route path="/pagamento-pix" element={<PixPaymentScreen />} />
         <Route path="/pagamento-cartao" element={<CardPaymentScreen />} />

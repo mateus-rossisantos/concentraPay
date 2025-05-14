@@ -19,7 +19,7 @@ const PixPaymentScreen = () => {
 const navigate = useNavigate();
 const location = useLocation();
 const totalAmount = location.state?.totalAmount || 0;
-const commandNumber = location.state?.commandNumber || 0;
+const numeroComanda = location.state?.numeroComanda || 0;
 const [pixKey, setPixKey] = useState('');
 const [qrCodeUrl, setQrCodeUrl] = useState('');
 const [loading, setLoading] = useState(true);
@@ -36,7 +36,7 @@ useEffect(() => {
     try {
       const data = await PaymentService.createPixPayment({
         amount: totalAmount,
-        commandNumber,
+        numeroComanda,
       });
       setPixKey(data.pixCopiaECola);
       setQrCodeUrl(`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(data.pixCopiaECola)}`);
@@ -50,7 +50,7 @@ useEffect(() => {
   };
 
   fetchPixPayment();
-}, [totalAmount, commandNumber]);
+}, [totalAmount, numeroComanda]);
 
 
   const handleCopy = () => {

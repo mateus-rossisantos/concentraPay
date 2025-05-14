@@ -48,7 +48,7 @@ const LoginScreen = () => {
         const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
         const user = userCredential.user;
         console.log('Usuário criado:', user.email);
-        await setDoc(doc(db, 'users', user.uid), {
+        await setDoc(doc(db, 'usuario', user.uid), {
             email,
             isEc : false
           });

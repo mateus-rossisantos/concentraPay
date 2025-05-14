@@ -26,16 +26,16 @@ import { FiArrowLeft } from 'react-icons/fi';
 
 const OpenOrdersScreen = () => {
   const navigate = useNavigate();
-  const { commandNumber } = useParams();
+  const { numeroComanda } = useParams();
   const [orders, setOrders] = useState([]);
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
     const fetchOrdersWithEstablishmentNames = async () => {
-      const ordersRef = collection(db, 'order');
+      const ordersRef = collection(db, 'pedido');
       const q = query(
         ordersRef,
-        where('commandNumber', '==', commandNumber),
+        where('numeroComanda', '==', numeroComanda),
         where('status', '==', 'CREATED')
       );
 
@@ -52,17 +52,17 @@ const OpenOrdersScreen = () => {
           const estRef = doc(db, 'estabelecimento', orderData.ec);
           const estSnap = await getDoc(estRef);
           if (estSnap.exists()) {
-            establishmentName = estSnap.data().name;
+            establishmentName = estSnap.data().nome;
           }
         }
 
-        const orderTotal = orderData.value && !isNaN(orderData.value) ? orderData.value : 0;
+        const orderTotal = orderData.valor && !isNaN(orderData.valor) ? orderData.valor : 0;
         calculatedTotal += orderTotal;
 
         tempOrders.push({
           ...orderData,
           establishmentName,
-          value: orderTotal,
+          valor: orderTotal,
         });
       }
 
@@ -71,7 +71,7 @@ const OpenOrdersScreen = () => {
     };
 
     fetchOrdersWithEstablishmentNames();
-  }, [commandNumber]);
+  }, [numeroComanda]);
 
   return (
     <Container>
@@ -83,7 +83,7 @@ const OpenOrdersScreen = () => {
       </Header>
 
       <Description>
-        Pedidos em aberto na comanda {commandNumber}
+        Pedidos em aberto na comanda {numeroComanda}
       </Description>
 
       {orders.length === 0 ? (
@@ -97,14 +97,14 @@ const OpenOrdersScreen = () => {
             {orders.map((order, index) => (
               <OrderItem key={index}>
                 <div><strong>Estabelecimento:</strong> {order.establishmentName}</div>
-                <div><strong>Total:</strong> R${order.value.toFixed(2)}</div>
+                <div><strong>Total:</strong> R${order.valor.toFixed(2)}</div>
               </OrderItem>
             ))}
           </OrderList>
 
           <TotalContainer>
             <div><strong>Total geral:</strong> R${total.toFixed(2)}</div>
-            <Button onClick={() => navigate('/forma-pagamento', { state: { totalAmount: total, commandNumber: commandNumber } })}>
+            <Button onClick={() => navigate('/forma-pagamento', { state: { totalAmount: total, numeroComanda: numeroComanda } })}>
               Pagar
             </Button>
           </TotalContainer>
