@@ -42,5 +42,27 @@ export const PaymentService = {
 
     if (!response.ok) throw new Error('Erro ao registrar pagamento em dinheiro');
     return response.json();
+  },
+
+  async processPendingPayments(id) {
+    const response = await fetch(`${BASE_URL}/payments/${id}/pending`, {
+      method: 'POST',
+    });
+
+    if (!response.ok) {
+      throw new Error('Erro ao processar pagamentos pendentes');
+    }
+
+    return response.text();
+  },
+
+  async consultPendingPaymentByE2EId(e2eId) {
+    const response = await fetch(`${BASE_URL}/payments/pending/${e2eId}`);
+
+    if (!response.ok) {
+      throw new Error('Erro ao consultar pagamento pendente por E2E ID');
+    }
+
+    return response.json();
   }
 };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
-import { BsCreditCard, BsCash, BsBank } from 'react-icons/bs';
+import { BsCash, BsBank } from 'react-icons/bs';
 import { auth, db } from '../firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
 import { PaymentService } from '../service/PaymentService';
@@ -12,7 +12,7 @@ import {
   BackButton,
   Title,
   Description,
-  Button,
+ // Button,
   IconWrapper,
   GreenButton,
   OrangeButton,
@@ -76,10 +76,10 @@ const PaymentMethodsScreen = () => {
 
       <Description>Valor Total: R$ {totalAmount.toFixed(2)}</Description>
 
-      <Button onClick={() => navigate('/pagamento-cartao', { state: { totalAmount } })}>
+      {/* <Button onClick={() => navigate('/pagamento-cartao', { state: { totalAmount } })}>
         <IconWrapper><BsCreditCard size={20} /></IconWrapper>
         Pagar com Cartão de Crédito
-      </Button>
+      </Button> */}
 
       <GreenButton onClick={() => navigate('/pagamento-pix', { state: { totalAmount, numeroComanda } })}>
         <IconWrapper>

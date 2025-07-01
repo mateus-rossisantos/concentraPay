@@ -39,15 +39,12 @@ const LoginScreen = () => {
     try {
       if (isLogin) {
         // LOGIN
-        const userCredential = await signInWithEmailAndPassword(auth, email, senha);
-        const user = userCredential.user;
-        console.log('Logado como:', user.email);
+        await signInWithEmailAndPassword(auth, email, senha);
         navigate('/home');
       } else {
         // CADASTRO
         const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
         const user = userCredential.user;
-        console.log('Usuário criado:', user.email);
         await setDoc(doc(db, 'usuario', user.uid), {
             email,
             isEc : false
