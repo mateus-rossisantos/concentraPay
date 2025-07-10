@@ -69,7 +69,7 @@ const EstablishmentHomeScreen = () => {
       } catch (error) {
         console.error('Erro ao consultar status do pagamento automaticamente:', error);
       }
-    }, 10000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [establishmentId, e2eId]);
