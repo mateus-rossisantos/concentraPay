@@ -8,6 +8,7 @@ export const PaymentService = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        "ngrok-skip-browser-warning": "true",
       },
       body: JSON.stringify({
         calendario: { expiracao: 3600 },
@@ -24,7 +25,12 @@ export const PaymentService = {
   },
 
   async checkPixPaymentStatus(txid) {
-    const response = await fetch(`${BASE_URL}/payments/pix/${txid}`);
+    const response = await fetch(`${BASE_URL}/payments/pix/${txid}`, {
+      method: 'GET',
+      headers: {
+        "ngrok-skip-browser-warning": "true",
+      },
+    });
     if (!response.ok) throw new Error('Erro ao consultar status do pagamento');
     return response.json();
   },
@@ -32,7 +38,10 @@ export const PaymentService = {
   async createMoneyPayment({ amount, ec, numeroComanda }) {
     const response = await fetch(`${BASE_URL}/payments/money`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        "ngrok-skip-browser-warning": "true"
+      },
       body: JSON.stringify({
         valor: amount,
         ec,
@@ -47,6 +56,9 @@ export const PaymentService = {
   async processPendingPayments(id) {
     const response = await fetch(`${BASE_URL}/payments/${id}/pending`, {
       method: 'POST',
+      headers: { 
+        "ngrok-skip-browser-warning": "true"
+      },
     });
 
     if (!response.ok) {
@@ -57,7 +69,12 @@ export const PaymentService = {
   },
 
   async consultPendingPaymentByE2EId(id, e2eId) {
-    const response = await fetch(`${BASE_URL}/payments/${id}/pending/${e2eId}`);
+    const response = await fetch(`${BASE_URL}/payments/${id}/pending/${e2eId}`, {
+      method: 'GET',
+      headers: {
+        "ngrok-skip-browser-warning": "true",
+      },
+    });
 
     if (!response.ok) {
       throw new Error('Erro ao consultar pagamento pendente por E2E ID');
