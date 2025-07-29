@@ -105,6 +105,7 @@ const EstablishmentHomeScreen = () => {
       setStatusMessage('Erro ao consultar status');
     } finally {
       setIsLoadingStatus(false);
+      setIsProcessing(false);
     }
   };
 
