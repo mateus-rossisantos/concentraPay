@@ -34,12 +34,15 @@ export const Description = styled.p`
 
 export const Input = styled.input`
   margin-top: 1rem;
-  width: 100%;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
   padding: 0.75rem;
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 8px;
   box-sizing: border-box;
+  display: block;
 `;
 
 export const Button = styled.button`

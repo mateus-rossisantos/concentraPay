@@ -19,16 +19,13 @@ const EstablishmentHomeScreen = () => {
   const [establishmentId, setEstablishmentId] = useState(null);
   const [showPendingButton, setShowPendingButton] = useState(false);
   const [e2eId, setE2eId] = useState(null);
-  const [isProcessing, setIsProcessing] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
-  const [isLoadingStatus, setIsLoadingStatus] = useState(false);
 
   // Verifica autenticação e dados do estabelecimento
   useEffect(() => {
     const savedE2eId = localStorage.getItem('pendingE2EId');
     if (savedE2eId) {
       setE2eId(savedE2eId);
-      setIsProcessing(true);
     }
 
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -62,7 +59,6 @@ const EstablishmentHomeScreen = () => {
 
         if (status.status === 'REALIZADO') {
           localStorage.removeItem('pendingE2EId');
-          setIsProcessing(false);
           setE2eId(null);
           clearInterval(interval);
         }
@@ -80,7 +76,6 @@ const EstablishmentHomeScreen = () => {
       setE2eId(result);
       localStorage.setItem('pendingE2EId', result);
       setShowPendingButton(false);
-      setIsProcessing(true);
       setStatusMessage(`Status: SOLICITAÇÃO ENVIADA`);
     } catch (error) {
       console.error('Erro ao processar pagamentos pendentes:', error);

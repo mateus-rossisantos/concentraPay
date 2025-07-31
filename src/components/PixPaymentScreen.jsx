@@ -52,15 +52,15 @@ useEffect(() => {
   fetchPixPayment();
 }, [totalAmount, numeroComanda]);
 
-useEffect(() => {
-  if (!txid) return;
+  useEffect(() => {
+    if (!txid) return;
 
-  const interval = setInterval(() => {
-    handleConfirmPayment();
-  }, 5000); // a cada 5 segundos
+    const interval = setInterval(() => {
+      handleConfirmPayment();
+    }, 5000); 
 
-  return () => clearInterval(interval); 
-}, [txid]);
+    return () => clearInterval(interval); 
+  }, [txid]);
 
 
   const handleCopy = () => {
