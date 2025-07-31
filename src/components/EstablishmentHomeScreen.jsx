@@ -81,31 +81,10 @@ const EstablishmentHomeScreen = () => {
       localStorage.setItem('pendingE2EId', result);
       setShowPendingButton(false);
       setIsProcessing(true);
+      setStatusMessage(`Status: SOLICITAÇÃO ENVIADA`);
     } catch (error) {
       console.error('Erro ao processar pagamentos pendentes:', error);
       alert('Erro ao processar pagamentos pendentes');
-    }
-  };
-
-  const handleConsultStatus = async () => {
-    if (!e2eId) return;
-
-    try {
-      setIsLoadingStatus(true);
-      const status = await PaymentService.consultPendingPaymentByE2EId(establishmentId, e2eId);
-      setStatusMessage(`Status: ${status.status}`);
-
-      if (status.status === 'CONCLUIDO' || status.status === 'CONCLUIDO_SALVO') {
-        localStorage.removeItem('pendingE2EId');
-        setIsProcessing(false);
-        setE2eId(null);
-      }
-    } catch (error) {
-      console.error('Erro ao consultar status do pagamento:', error);
-      setStatusMessage('Erro ao consultar status');
-    } finally {
-      setIsLoadingStatus(false);
-      setIsProcessing(false);
     }
   };
 
@@ -135,17 +114,12 @@ const EstablishmentHomeScreen = () => {
           </Button>
         </>
       )}
-
-      {isProcessing && (
+      {statusMessage && (
         <>
-          <Button onClick={handleConsultStatus} disabled={isLoadingStatus}>
-            {isLoadingStatus ? 'Consultando status...' : 'Processando pagamento, consultar status'}
-          </Button>
-          {statusMessage && (
-            <p style={{ textAlign: 'center', marginTop: '10px', color: '#333' }}>
-              {statusMessage}
-            </p>
-          )}
+          <hr style={{ width: '100%', margin: '20px 0', borderColor: '#ccc' }} />
+          <p style={{ textAlign: 'center', marginTop: '10px', color: '#333' }}>
+            {statusMessage}
+          </p>
         </>
       )}
     </Container>
