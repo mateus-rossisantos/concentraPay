@@ -89,7 +89,7 @@ const EstablishmentHomeScreen = () => {
         <BackButton onClick={() => navigate('/home')}>
           <FiArrowLeft size={20} />
         </BackButton>
-        <Title>concentraPay</Title>
+        <Title>ConcentraPay</Title>
       </Header>
 
       <Button onClick={() => navigate('/criar-pedido')}>Criar Pedido</Button>

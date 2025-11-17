@@ -79,7 +79,7 @@ const HomeScreen = () => {
         <BackButton onClick={handleLogout}>
           <FiArrowLeft size={20} />
         </BackButton>
-        <Title>concentraPay</Title>
+        <Title>ConcentraPay</Title>
       </Header>
 
       <Description>

@@ -59,7 +59,7 @@ const LoginScreen = () => {
 
   return (
     <Container>
-      <Title>concentraPay</Title>
+      <Title>ConcentraPay</Title>
 
       <ToggleWrapper>
         <ToggleButton active={isLogin} onClick={() => setIsLogin(true)}>Entrar</ToggleButton>
@@ -68,7 +68,7 @@ const LoginScreen = () => {
 
       {isLogin ? (
         <>
-          <Label>Olá, entre com sua informações para logar</Label>
+          <Label>Olá, entre com suas informações para logar</Label>
           <Input
             type="email"
             placeholder="Email"
